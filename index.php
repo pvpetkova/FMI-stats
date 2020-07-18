@@ -1,5 +1,4 @@
 <?php
-
 include('./db/DBConnector.php');
 
 $loadAll = true;
@@ -41,23 +40,154 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 } else {
     $nameError = "Моля въведете име.";
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ФМИ - натоварване на сградата</title>
+    <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;500&family=Roboto:wght@300&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&family=Roboto:wght@300&display=swap"
           rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
     <script type="text/javascript" src="script/script.js"></script>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <httpProtocol>
+        <customHeaders>
+            <add name="Access-Control-Allow-Origin" value="*" />
+        </customHeaders>
+    </httpProtocol>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .hero-image {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url("./styles/assets/Sofia_University_-_FMI_1.jpg");
+            height: 350px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .hero-text {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            line-height: 0.95;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: 500;
+        }
+
+        h1 {
+            font-family: 'Roboto Slab', serif;
+            font-weight: 500;
+        }
+
+        h2, h3, h4, h5 {
+            font-family: 'Roboto Slab', serif;
+            font-weight: 300;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 0 auto;
+            border: 1px solid #959595;
+            border-radius: 50px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th {
+            background-color: #528b50;
+            color: white;
+        }
+
+        .table-name {
+            text-align: center;
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown {
+            display: block;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        input, select {
+            font-size: inherit;
+        }
+
+        select {
+            padding: 8px 5px 8px 15px;
+            width: 500px;
+            margin: 10px;
+            font-family: inherit;
+            border: 1px solid #a6a6a6;
+            border-radius: 20px;
+        }
+
+        select:invalid {
+            color: grey;
+        }
+
+        input[type=submit] {
+            border-radius: 20px;
+            border: none;
+            display: inline-block;
+            padding: 10px 25px;
+            color: #ffffff;
+            background-color: #528b50;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #326532;
+            color: white;
+            transition: background-color 350ms ease;
+        }
+
+        .footer {
+            width: 100%;
+            margin-top: 50px;
+            text-align: center;
+            line-height: 0.5;
+            font-size: 14px;
+            padding: 15px 0 15px 0;
+            background-color: #f2f2f2;
+        }
+
+    </style>
 </head>
 <body>
 <main>
@@ -90,43 +220,37 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </form>
         </div>
 
-        <?php if ($loadAll): ?>
-            <div class="table-container">
-                <h2 class="table-name">Списък на всички студенти</h2>
-                <div class="download-form">
-                    <label>Изтегли като: </label>
-                    <button class="download-button" id="download" value="csv"
-                            onclick="downloadCsv()">.csv
-                    </button>
-                </div>
-                <table>
-                    <tr>
-                        <th id="fn" scope="col">ФН</th>
-                        <th id="degree" scope="col">Степен</th>
-                        <th id="major" scope="col">Специалност</th>
-                        <th id="major_full_name" scope="col">Специалност - пълно наименование</th>
-                        <th id="year" scope="col">Курс</th>
-                        <th id="stream" scope="col">Поток</th>
-                        <th id="group_number" scope="col">Група</th>
-                    </tr>
+        <?php
+            $table=$db->selectAll();
+            $number=count($table);
+            if ($loadAll): ?>
+            <h2 class="table-name">Списък на всички студенти</h2>
+            <table>
+                <tr>
+                    <th>ФН</th>
+                    <th>Степен</th>
+                    <th>Специалност</th>
+                    <th>Специалност - пълно наименование</th>
+                    <th>Курс</th>
+                    <th>Поток</th>
+                    <th>Група</th>
+                </tr>
 
-                    <?php foreach ($tableData as $key => $row): ?>
-                        <tr>
-                            <td><?php echo $row['fn']; ?></td>
-                            <td><?php echo $row['degree']; ?></td>
-                            <td><?php echo $row['major']; ?></td>
-                            <td><?php echo $row['major_full_name']; ?></td>
-                            <td><?php echo $row['year']; ?></td>
-                            <td><?php echo $row['stream']; ?></td>
-                            <td><?php echo $row['group_number']; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            </div>
+                <?php foreach ($tableData as $key => $row): ?>
+                    <tr>
+                        <td><?php echo $row['fn']; ?></td>
+                        <td><?php echo $row['degree']; ?></td>
+                        <td><?php echo $row['major']; ?></td>
+                        <td><?php echo $row['major_full_name']; ?></td>
+                        <td><?php echo $row['year']; ?></td>
+                        <td><?php echo $row['stream']; ?></td>
+                        <td><?php echo $row['group_number']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
         <?php endif; ?>
 
         <?php if ($loadMajors): ?>
-        <div class="table-container">
             <h2 class="table-name">Брой на студенти по специалност</h2>
             <div class="download-form">
                 <label>Изтегли като: </label>
@@ -135,261 +259,320 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 </button>
             </div>
             <?php
-            $number = count($tableData);
-            $dataPoints = array();
+            $size=count($tableData);
+            $keys=array();
+            $values=array();
             ?>
             <table>
                 <tr>
-                    <th scope="col" id="count">Брой</th>
-                    <th scope="col">Специалност</th>
-                    <th scope="col">Специалност - пълно наименование</th>
-                    <th scope="col">Степен</th>
+                    <th>Брой</th>
+                    <th>Специалност</th>
+                    <th>Специалност - пълно наименование</th>
+                    <th>Степен</th>
                 </tr>
 
-                <?php foreach ($tableData as $key => $row): ?>
+                <?php
+                foreach ($tableData as $key => $row): ?>
                     <tr>
                         <td><?php echo $row['count']; ?></td>
                         <td><?php echo $row['major']; ?></td>
                         <td><?php echo $row['major_full_name']; ?></td>
                         <td><?php echo $row['degree']; ?></td>
                     </tr>
-                    <?php
-                    $percentage = ($row['count'] / $number);
-                    array_push($dataPoints, $percentage);
+                <?php
+                $percentage=round($row['count']*100 / $number,2);
+                array_push($keys, $row['major']);
+                array_push($values, $percentage);
                 endforeach;
+                $dataPoints=array_combine($keys, $values);
                 ?>
             </table>
             <script>
-                window.onload = function () {
-                    var chart = new CanvasJS.Chart("majors", {
-                        animationEnabled: true,
-                        data: [{
-                            type: "pie",
-                            yValueFormatString: "#,##0.00\"%\"",
-                            //indexLabel: "{$row['major']} {percentage}",
-                            dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                        }]
-                    });
-                    chart.render();
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var options = {
+                    title: 'Специалности',
+                    'width':600,
+                    'height':300,
+                    };
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Major');
+                    data.addColumn('number', 'Percentage');
+                    data.addRows([
+                    <?php
+                        foreach($dataPoints as $key => $row):
+                            echo "['" . $key . "'," . $row . "],";
+                        endforeach;
+                    ?>
+                    ]);
+                    var chart = new google.visualization.PieChart(document.getElementById('majors'));
+                    chart.draw(data, options);
                 }
-            </script>
-            <div class="chartContainer" id="majors"></div>
+        </script>
+        <div class="chartContainer" id="majors" style="margin-left: 35%"></div>
+        <?php endif; ?>
 
-            <?php endif; ?>
+        <?php if ($loadGroups): ?>
+            <h2 class="table-name">Брой на студенти по групи</h2>
+            <div class="download-form">
+                <label>Изтегли като: </label>
+                <button class="download-button" id="download" value="csv"
+                        onclick="downloadCsv()">.csv
+                </button>
+            </div>
+            <?php
+                $size=count($tableData);
+                $keys=array();
+                $values=array();
+            ?>
+            <table>
+                <tr>
+                    <th>Брой</th>
+                    <th>Група</th>
+                    <th>Специалност</th>
+                    <th>Специалност - пълно наименование</th>
+                    <th>Степен</th>
+                </tr>
 
-            <?php if ($loadGroups): ?>
-                <div class="table-container">
-                    <h2 class="table-name">Брой на студенти по групи</h2>
-                    <div class="download-form">
-                        <label>Изтегли като: </label>
-                        <button class="download-button" id="download" value="csv"
-                                onclick="downloadCsv()">.csv
-                        </button>
-                    </div>
+                <?php foreach ($tableData as $key => $row): ?>
+                    <tr>
+                        <td><?php echo $row['count']; ?></td>
+                        <td><?php echo $row['group_number']; ?></td>
+                        <td><?php echo $row['major']; ?></td>
+                        <td><?php echo $row['major_full_name']; ?></td>
+                        <td><?php echo $row['degree']; ?></td>
+                    </tr>
+                <?php
+                $percentage=round($row['count']*100 / $number,2);
+                array_push($keys, $row['group_number']);
+                array_push($values, $percentage);
+                endforeach;
+                $dataPoints=array_combine($keys, $values);
+                ?>
+            </table>
+            <script>
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var options = {
+                    title: 'Групи',
+                    'width':600,
+                    'height':300,
+                    };
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Groups');
+                    data.addColumn('number', 'Percentage');
+                    data.addRows([
                     <?php
-                    $number = count($tableData);
-                    $dataPoints = array();
-                    ?>
-                    <table>
-                        <tr>
-                            <th scope="col">Брой</th>
-                            <th scope="col">Група</th>
-                            <th scope="col">Специалност</th>
-                            <th scope="col">Специалност - пълно наименование</th>
-                            <th scope="col">Степен</th>
-                        </tr>
-
-                        <?php foreach ($tableData as $key => $row): ?>
-                            <tr>
-                                <td><?php echo $row['count']; ?></td>
-                                <td><?php echo $row['group_number']; ?></td>
-                                <td><?php echo $row['major']; ?></td>
-                                <td><?php echo $row['major_full_name']; ?></td>
-                                <td><?php echo $row['degree']; ?></td>
-                            </tr>
-                            <?php
-                            $percentage = ($row['count'] / $number);
-                            array_push($dataPoints, $percentage);
+                        foreach($dataPoints as $key => $row):
+                            echo "['" . $key . "'," . $row . "],";
                         endforeach;
-                        ?>
-                    </table>
-                    <script>
-                        window.onload = function () {
-                            var chart = new CanvasJS.Chart("groups", {
-                                animationEnabled: true,
-                                data: [{
-                                    type: "pie",
-                                    yValueFormatString: "#,##0.00\"%\"",
-                                    //indexLabel: "{label} ({y})",
-                                    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                                }]
-                            });
-                            chart.render();
-                        }
-                    </script>
-                    <div class="chartContainer" id="groups"></div>
-                </div>
-            <?php endif; ?>
+                    ?>
+                    ]);
+                    var chart = new google.visualization.PieChart(document.getElementById('groups'));
+                    chart.draw(data, options);
+                }
+        </script>
+        <div class="chartContainer" id="groups" style="margin-left: 35%"></div>
+        <?php endif; ?>
 
-            <?php if ($loadPotoci): ?>
-                <div class="table-container">
-                    <h2 class="table-name">Брой на студенти по потоци</h2>
-                    <div class="download-form">
-                        <label>Изтегли като: </label>
-                        <button class="download-button" id="download" value="csv"
-                                onclick="downloadCsv()">.csv
-                        </button>
-                    </div>
+        <?php if ($loadPotoci): ?>
+            <h2 class="table-name">Брой на студенти по потоци</h2>
+            <div class="download-form">
+                <label>Изтегли като: </label>
+                <button class="download-button" id="download" value="csv"
+                        onclick="downloadCsv()">.csv
+                </button>
+            </div>
+            <?php
+                $size=count($tableData);
+                $keys=array();
+                $values=array();
+            ?>
+            <table>
+                <tr>
+                    <th>Брой</th>
+                    <th>Поток</th>
+                    <th>Специалност</th>
+                    <th>Специалност - пълно наименование</th>
+                    <th>Степен</th>
+                </tr>
+
+                <?php foreach ($tableData as $key => $row): ?>
+                    <tr>
+                        <td><?php echo $row['count']; ?></td>
+                        <td><?php echo $row['stream']; ?></td>
+                        <td><?php echo $row['major']; ?></td>
+                        <td><?php echo $row['major_full_name']; ?></td>
+                        <td><?php echo $row['degree']; ?></td>
+                    </tr>
+                <?php
+                $percentage=round($row['count']*100 / $number,2);
+                array_push($keys, $row['stream']);
+                array_push($values, $percentage);
+                endforeach;
+                $dataPoints=array_combine($keys, $values);
+                ?>
+            </table>
+            <script>
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var options = {
+                    title: 'Потоци',
+                    'width':600,
+                    'height':300,
+                    };
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Stream');
+                    data.addColumn('number', 'Percentage');
+                    data.addRows([
                     <?php
-                    $number = count($tableData);
-                    $dataPoints = array();
-                    ?>
-                    <table>
-                        <tr>
-                            <th scope="col">Брой</th>
-                            <th scope="col">Поток</th>
-                            <th scope="col">Специалност</th>
-                            <th scope="col">Специалност - пълно наименование</th>
-                            <th scope="col">Степен</th>
-                        </tr>
-
-                        <?php foreach ($tableData as $key => $row): ?>
-                            <tr>
-                                <td><?php echo $row['count']; ?></td>
-                                <td><?php echo $row['stream']; ?></td>
-                                <td><?php echo $row['major']; ?></td>
-                                <td><?php echo $row['major_full_name']; ?></td>
-                                <td><?php echo $row['degree']; ?></td>
-                            </tr>
-                            <?php
-                            $percentage = ($row['count'] / $number);
-                            array_push($dataPoints, $percentage);
+                        foreach($dataPoints as $key => $row):
+                            echo "['" . $key . "'," . $row . "],";
                         endforeach;
-                        ?>
-                    </table>
-                    <script>
-                        window.onload = function () {
-                            var chart = new CanvasJS.Chart("potoci", {
-                                animationEnabled: true,
-                                data: [{
-                                    type: "pie",
-                                    yValueFormatString: "#,##0.00\"%\"",
-                                    //indexLabel: "{label} ({y})",
-                                    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                                }]
-                            });
-                            chart.render();
-                        }
-                    </script>
-                    <div class="chartContainer" id="potoci"></div>
-                </div>
-            <?php endif; ?>
+                    ?>
+                    ]);
+                    var chart = new google.visualization.PieChart(document.getElementById('potoci'));
+                    chart.draw(data, options);
+                }
+        </script>
+        <div class="chartContainer" id="potoci" style="margin-left: 35%"></div>
+        <?php endif; ?>
 
-            <?php if ($loadYears): ?>
-                <div class="table-container">
-                    <h2 class="table-name">Брой на студенти по курсове</h2>
-                    <div class="download-form">
-                        <label>Изтегли като: </label>
-                        <button class="download-button" id="download" value="csv"
-                                onclick="downloadCsv()">.csv
-                        </button>
-                    </div>
+        <?php if ($loadYears): ?>
+            <h2 class="table-name">Брой на студенти по курсове</h2>
+            <div class="download-form">
+                <label>Изтегли като: </label>
+                <button class="download-button" id="download" value="csv"
+                        onclick="downloadCsv()">.csv
+                </button>
+            </div>
+            <?php
+                $size=count($tableData);
+                $keys=array();
+                $values=array();
+            ?>
+            <table>
+                <tr>
+                    <th>Брой</th>
+                    <th>Курс</th>
+                    <th>Специалност</th>
+                    <th>Специалност - пълно наименование</th>
+                    <th>Степен</th>
+                </tr>
+
+                <?php foreach ($tableData as $key => $row): ?>
+                    <tr>
+                        <td><?php echo $row['count']; ?></td>
+                        <td><?php echo $row['year']; ?></td>
+                        <td><?php echo $row['major']; ?></td>
+                        <td><?php echo $row['major_full_name']; ?></td>
+                        <td><?php echo $row['degree']; ?></td>
+                    </tr>
+                <?php
+                $percentage=round($row['count']*100 / $number,2);
+                array_push($keys, $row['year']);
+                array_push($values, $percentage);
+                endforeach;
+                $dataPoints=array_combine($keys, $values);
+                ?>
+            </table>
+            <script>
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var options = {
+                    title: 'Курсове',
+                    'width':600,
+                    'height':300,
+                    };
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Years');
+                    data.addColumn('number', 'Percentage');
+                    data.addRows([
                     <?php
-                    $number = count($tableData);
-                    $dataPoints = array();
+                        foreach($dataPoints as $key => $row):
+                            echo "['" . $key . "'," . $row . "],";
+                        endforeach;
                     ?>
-                    <table>
-                        <tr>
-                            <th scope="col">Брой</th>
-                            <th scope="col">Курс</th>
-                            <th scope="col">Специалност</th>
-                            <th scope="col">Специалност - пълно наименование</th>
-                            <th scope="col">Степен</th>
-                        </tr>
+                    ]);
+                    var chart = new google.visualization.PieChart(document.getElementById('years'));
+                    chart.draw(data, options);
+                }
+        </script>
+        <div class="chartContainer" id="years" style="margin-left: 35%"></div>
+        <?php endif; ?>
 
-                        <?php foreach ($tableData as $key => $row): ?>
-                            <tr>
-                                <td><?php echo $row['count']; ?></td>
-                                <td><?php echo $row['year']; ?></td>
-                                <td><?php echo $row['major']; ?></td>
-                                <td><?php echo $row['major_full_name']; ?></td>
-                                <td><?php echo $row['degree']; ?></td>
-                            </tr>
-                            <?php
-                            $percentage = ($row['count'] / $number);
-                            array_push($dataPoints, $percentage);
+        <?php if ($loadDegrees): ?>
+            <h2 class="table-name">Брой на студенти по степен</h2>
+            <div class="download-form">
+                <label>Изтегли като: </label>
+                <button class="download-button" id="download" value="csv"
+                        onclick="downloadCsv()">.csv
+                </button>
+            </div>
+            <?php
+                $size=count($tableData);
+                $keys=array();
+                $values=array();
+            ?>
+            <table style="width: 300px">
+                <tr>
+                    <th>Брой</th>
+                    <th>Степен</th>
+                </tr>
+
+                <?php foreach ($tableData as $key => $row): ?>
+                    <tr>
+                        <td><?php echo $row['count']; ?></td>
+                        <td><?php echo $row['degree']; ?></td>
+                    </tr>
+                <?php
+                    $percentage=round($row['count']*100 / $number,2);
+                    array_push($keys, $row['degree']);
+                    array_push($values, $percentage);
+                    endforeach;
+                    $dataPoints=array_combine($keys, $values);
+                ?>
+            </table>
+            <script>
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var options = {
+                        title: 'Степени',
+                        'width':600,
+                        'height':300,
+                    };
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Degree');
+                    data.addColumn('number', 'Percentage');
+                    data.addRows([
+                        <?php
+                        foreach($dataPoints as $key => $row):
+                            echo "['" . $key . "'," . $row . "],";
                         endforeach;
                         ?>
-                    </table>
-                    <script>
-                        window.onload = function () {
-                            var chart = new CanvasJS.Chart("years", {
-                                animationEnabled: true,
-                                data: [{
-                                    type: "pie",
-                                    yValueFormatString: "#,##0.00\"%\"",
-                                    //indexLabel: "{label} ({y})",
-                                    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                                }]
-                            });
-                            chart.render();
-                        }
-                    </script>
-                    <div class="chartContainer" id="years"></div>
-                </div>
-            <?php endif; ?>
+                    ]);
+                    console.log(data);
+                    var chart = new google.visualization.PieChart(document.getElementById('degrees'));
+                    chart.draw(data, options);
+                }
+        </script>
+        <div class="chartContainer" id="degrees" style="margin-left: 35%"></div>
+        <?php endif; ?>
+    </div>
 
-            <?php if ($loadDegrees): ?>
-                <div class="table-container">
-                    <h2 class="table-name">Брой на студенти по степен</h2>
-                    <div class="download-form">
-                        <label>Изтегли като: </label>
-                        <button class="download-button" id="download" value="csv"
-                                onclick="downloadCsv()">.csv
-                        </button>
-                    </div>
-                    <?php $dataPoints = array(); ?>
-                    <table>
-                        <tr>
-                            <th scope="col">Брой</th>
-                            <th scope="col"></th>
-                            <th scope="col">Степен</th>
-                        </tr>
-
-                        <?php foreach ($tableData as $key => $row): ?>
-                            <tr>
-                                <td><?php echo $row['count']; ?></td>
-                                <td></td>
-                                <td><?php echo $row['degree']; ?></td>
-                            </tr>
-                            <?php
-                            array_push($dataPoints, $row['count']);
-                        endforeach;
-                        ?>
-                    </table>
-                    <script>
-                        window.onload = function () {
-
-                            var chart = new CanvasJS.Chart("degrees", {
-                                animationEnabled: true,
-                                theme: "light2",
-                                data: [{
-                                    type: "column",
-                                    yValueFormatString: "#,##0.## tonnes",
-                                    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                                }]
-                            });
-                            chart.render();
-                        }
-                    </script>
-                    <div class="chartContainer" id="degrees"></div>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <div class="footer">
-            <p>Пламена Петкова & Ина Георгиева • Проект по Уеб Технологии, СУ - ФМИ, 2020</p>
-        </div>
+    <div class="footer">
+        <p>Пламена Петкова & Ина Георгиева • Проект по Уеб Технологии, СУ - ФМИ, 2020</p>
+    </div>
 
 </main>
 </body>
