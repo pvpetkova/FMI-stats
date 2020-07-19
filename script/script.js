@@ -3,7 +3,6 @@ function downloadCsv(grouping) {
     var req = new XMLHttpRequest();
     req.onload = function () {
         var csvContent = "data:text/csv;charset=utf-8,";
-        console.log(JSON.parse(this.responseText));
         var json = JSON.parse(this.responseText);
         var fields = Object.keys(json[0]);
         var replacer = function (key, value) {
@@ -26,9 +25,11 @@ function downloadCsv(grouping) {
         link.click();
     };
 
-    var url = "data.php";
+    var url = "index.php";
     if (grouping) {
-        url = url + "?grouping=" + grouping;
+        url = url + "?grouping=" + grouping + +"&json=true";
+    } else {
+        url = url + "&json=true";
     }
     req.open("get", url, true);
     req.send();

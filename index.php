@@ -9,7 +9,6 @@ try {
     $connectionError = "Неуспешно свързване с базата. Моля опитайте отново.";
 }
 $tableData = $db->selectAll();
-
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["grouping"])) {
         $loadAll = false;
@@ -17,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             case 'major':
                 $tableData = $db->groupByMajor();
                 $loadMajors = true;
+
                 break;
             case 'degree':
                 $tableData = $db->groupByDegrees();
@@ -35,7 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $loadPotoci = true;
                 break;
         }
-
+        if (isset($_GET["json"]) && $_GET["json"] == 'true') {
+            echo json_encode($tableData);
+            return;
+        }
     }
 } else {
     $nameError = "Моля въведете име.";
@@ -213,42 +216,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <option value="degree">По степен</option>
                     <option value="year">По курс</option>
                     <option value="group">По група</option>
-                    <!--TODO kak e potok?-->
                     <option value="potok">По поток</option>
                 </select>
                 <input id="submit" name="submit" type="submit" value="Групирай!">
             </form>
         </div>
 
-        <?php
-            $table=$db->selectAll();
-            $number=count($table);
-            if ($loadAll): ?>
-            <h2 class="table-name">Списък на всички студенти</h2>
-            <table>
-                <tr>
-                    <th>ФН</th>
-                    <th>Степен</th>
-                    <th>Специалност</th>
-                    <th>Специалност - пълно наименование</th>
-                    <th>Курс</th>
-                    <th>Поток</th>
-                    <th>Група</th>
-                </tr>
-
-                <?php foreach ($tableData as $key => $row): ?>
-                    <tr>
-                        <td><?php echo $row['fn']; ?></td>
-                        <td><?php echo $row['degree']; ?></td>
-                        <td><?php echo $row['major']; ?></td>
-                        <td><?php echo $row['major_full_name']; ?></td>
-                        <td><?php echo $row['year']; ?></td>
-                        <td><?php echo $row['stream']; ?></td>
-                        <td><?php echo $row['group_number']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
-        <?php endif; ?>
+        <?php if ($loadAll):
+            $table = $db->selectAll();
+            include 'allStudents.php'; endif; ?>
 
         <?php if ($loadMajors): ?>
             <h2 class="table-name">Брой на студенти по специалност</h2>
@@ -258,11 +234,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         onclick="downloadCsv('major')">.csv
                 </button>
             </div>
-            <?php
-            $size=count($tableData);
-            $keys=array();
-            $values=array();
-            ?>
+        <?php
+        $size = count($tableData);
+        $keys = array();
+        $values = array();
+        ?>
             <table>
                 <tr>
                     <th>Брой</th>
@@ -279,39 +255,39 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <td><?php echo $row['major_full_name']; ?></td>
                         <td><?php echo $row['degree']; ?></td>
                     </tr>
-                <?php
-                $percentage=round($row['count']*100 / $number,2);
-                array_push($keys, $row['major']);
-                array_push($values, $percentage);
+                    <?php
+                    $percentage = round($row['count'] * 100 / $size, 2);
+                    array_push($keys, $row['major']);
+                    array_push($values, $percentage);
                 endforeach;
-                $dataPoints=array_combine($keys, $values);
+                $dataPoints = array_combine($keys, $values);
                 ?>
             </table>
             <script>
-                google.charts.load('current', {'packages':['corechart']});
+                google.charts.load('current', {'packages': ['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
 
                 function drawChart() {
                     var options = {
-                    title: 'Специалности',
-                    'width':600,
-                    'height':300,
+                        title: 'Специалности',
+                        'width': 600,
+                        'height': 300
                     };
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Major');
                     data.addColumn('number', 'Percentage');
                     data.addRows([
-                    <?php
-                        foreach($dataPoints as $key => $row):
+                        <?php
+                        foreach ($dataPoints as $key => $row):
                             echo "['" . $key . "'," . $row . "],";
                         endforeach;
-                    ?>
+                        ?>
                     ]);
                     var chart = new google.visualization.PieChart(document.getElementById('majors'));
                     chart.draw(data, options);
                 }
-        </script>
-        <div class="chartContainer" id="majors" style="margin-left: 35%"></div>
+            </script>
+            <div class="chartContainer" id="majors" style="margin-left: 35%"></div>
         <?php endif; ?>
 
         <?php if ($loadGroups): ?>
@@ -319,14 +295,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="download-form">
                 <label>Изтегли като: </label>
                 <button class="download-button" id="download" value="csv"
-                        onclick="downloadCsv()">.csv
+                        onclick="downloadCsv('group')">.csv
                 </button>
             </div>
-            <?php
-                $size=count($tableData);
-                $keys=array();
-                $values=array();
-            ?>
+        <?php
+        $size = count($tableData);
+        $keys = array();
+        $values = array();
+        ?>
             <table>
                 <tr>
                     <th>Брой</th>
@@ -344,39 +320,39 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <td><?php echo $row['major_full_name']; ?></td>
                         <td><?php echo $row['degree']; ?></td>
                     </tr>
-                <?php
-                $percentage=round($row['count']*100 / $number,2);
-                array_push($keys, $row['group_number']);
-                array_push($values, $percentage);
+                    <?php
+                    $percentage = round($row['count'] * 100 / $number, 2);
+                    array_push($keys, $row['group_number']);
+                    array_push($values, $percentage);
                 endforeach;
-                $dataPoints=array_combine($keys, $values);
+                $dataPoints = array_combine($keys, $values);
                 ?>
             </table>
             <script>
-                google.charts.load('current', {'packages':['corechart']});
+                google.charts.load('current', {'packages': ['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
 
                 function drawChart() {
                     var options = {
-                    title: 'Групи',
-                    'width':600,
-                    'height':300,
+                        title: 'Групи',
+                        'width': 600,
+                        'height': 300,
                     };
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Groups');
                     data.addColumn('number', 'Percentage');
                     data.addRows([
-                    <?php
-                        foreach($dataPoints as $key => $row):
+                        <?php
+                        foreach ($dataPoints as $key => $row):
                             echo "['" . $key . "'," . $row . "],";
                         endforeach;
-                    ?>
+                        ?>
                     ]);
                     var chart = new google.visualization.PieChart(document.getElementById('groups'));
                     chart.draw(data, options);
                 }
-        </script>
-        <div class="chartContainer" id="groups" style="margin-left: 35%"></div>
+            </script>
+            <div class="chartContainer" id="groups" style="margin-left: 35%"></div>
         <?php endif; ?>
 
         <?php if ($loadPotoci): ?>
@@ -384,14 +360,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="download-form">
                 <label>Изтегли като: </label>
                 <button class="download-button" id="download" value="csv"
-                        onclick="downloadCsv()">.csv
+                        onclick="downloadCsv('potoci')">.csv
                 </button>
             </div>
-            <?php
-                $size=count($tableData);
-                $keys=array();
-                $values=array();
-            ?>
+        <?php
+        $size = count($tableData);
+        $keys = array();
+        $values = array();
+        ?>
             <table>
                 <tr>
                     <th>Брой</th>
@@ -409,39 +385,39 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <td><?php echo $row['major_full_name']; ?></td>
                         <td><?php echo $row['degree']; ?></td>
                     </tr>
-                <?php
-                $percentage=round($row['count']*100 / $number,2);
-                array_push($keys, $row['stream']);
-                array_push($values, $percentage);
+                    <?php
+                    $percentage = round($row['count'] * 100 / $number, 2);
+                    array_push($keys, $row['stream']);
+                    array_push($values, $percentage);
                 endforeach;
-                $dataPoints=array_combine($keys, $values);
+                $dataPoints = array_combine($keys, $values);
                 ?>
             </table>
             <script>
-                google.charts.load('current', {'packages':['corechart']});
+                google.charts.load('current', {'packages': ['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
 
                 function drawChart() {
                     var options = {
-                    title: 'Потоци',
-                    'width':600,
-                    'height':300,
+                        title: 'Потоци',
+                        'width': 600,
+                        'height': 300
                     };
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Stream');
                     data.addColumn('number', 'Percentage');
                     data.addRows([
-                    <?php
-                        foreach($dataPoints as $key => $row):
+                        <?php
+                        foreach ($dataPoints as $key => $row):
                             echo "['" . $key . "'," . $row . "],";
                         endforeach;
-                    ?>
+                        ?>
                     ]);
                     var chart = new google.visualization.PieChart(document.getElementById('potoci'));
                     chart.draw(data, options);
                 }
-        </script>
-        <div class="chartContainer" id="potoci" style="margin-left: 35%"></div>
+            </script>
+            <div class="chartContainer" id="potoci" style="margin-left: 35%"></div>
         <?php endif; ?>
 
         <?php if ($loadYears): ?>
@@ -449,14 +425,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="download-form">
                 <label>Изтегли като: </label>
                 <button class="download-button" id="download" value="csv"
-                        onclick="downloadCsv()">.csv
+                        onclick="downloadCsv('year')">.csv
                 </button>
             </div>
-            <?php
-                $size=count($tableData);
-                $keys=array();
-                $values=array();
-            ?>
+        <?php
+        $size = count($tableData);
+        $keys = array();
+        $values = array();
+        ?>
             <table>
                 <tr>
                     <th>Брой</th>
@@ -474,39 +450,39 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <td><?php echo $row['major_full_name']; ?></td>
                         <td><?php echo $row['degree']; ?></td>
                     </tr>
-                <?php
-                $percentage=round($row['count']*100 / $number,2);
-                array_push($keys, $row['year']);
-                array_push($values, $percentage);
+                    <?php
+                    $percentage = round($row['count'] * 100 / $number, 2);
+                    array_push($keys, $row['year']);
+                    array_push($values, $percentage);
                 endforeach;
-                $dataPoints=array_combine($keys, $values);
+                $dataPoints = array_combine($keys, $values);
                 ?>
             </table>
             <script>
-                google.charts.load('current', {'packages':['corechart']});
+                google.charts.load('current', {'packages': ['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
 
                 function drawChart() {
                     var options = {
-                    title: 'Курсове',
-                    'width':600,
-                    'height':300,
+                        title: 'Курсове',
+                        'width': 600,
+                        'height': 300
                     };
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Years');
                     data.addColumn('number', 'Percentage');
                     data.addRows([
-                    <?php
-                        foreach($dataPoints as $key => $row):
+                        <?php
+                        foreach ($dataPoints as $key => $row):
                             echo "['" . $key . "'," . $row . "],";
                         endforeach;
-                    ?>
+                        ?>
                     ]);
                     var chart = new google.visualization.PieChart(document.getElementById('years'));
                     chart.draw(data, options);
                 }
-        </script>
-        <div class="chartContainer" id="years" style="margin-left: 35%"></div>
+            </script>
+            <div class="chartContainer" id="years" style="margin-left: 35%"></div>
         <?php endif; ?>
 
         <?php if ($loadDegrees): ?>
@@ -514,14 +490,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="download-form">
                 <label>Изтегли като: </label>
                 <button class="download-button" id="download" value="csv"
-                        onclick="downloadCsv()">.csv
+                        onclick="downloadCsv('degree')">.csv
                 </button>
             </div>
-            <?php
-                $size=count($tableData);
-                $keys=array();
-                $values=array();
-            ?>
+        <?php
+        $size = count($tableData);
+        $keys = array();
+        $values = array();
+        ?>
             <table style="width: 300px">
                 <tr>
                     <th>Брой</th>
@@ -533,30 +509,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <td><?php echo $row['count']; ?></td>
                         <td><?php echo $row['degree']; ?></td>
                     </tr>
-                <?php
-                    $percentage=round($row['count']*100 / $number,2);
+                    <?php
+                    $percentage = round($row['count'] * 100 / $number, 2);
                     array_push($keys, $row['degree']);
                     array_push($values, $percentage);
-                    endforeach;
-                    $dataPoints=array_combine($keys, $values);
+                endforeach;
+                $dataPoints = array_combine($keys, $values);
                 ?>
             </table>
             <script>
-                google.charts.load('current', {'packages':['corechart']});
+                google.charts.load('current', {'packages': ['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
 
                 function drawChart() {
                     var options = {
                         title: 'Степени',
-                        'width':600,
-                        'height':300,
+                        'width': 600,
+                        'height': 300
                     };
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Degree');
                     data.addColumn('number', 'Percentage');
                     data.addRows([
                         <?php
-                        foreach($dataPoints as $key => $row):
+                        foreach ($dataPoints as $key => $row):
                             echo "['" . $key . "'," . $row . "],";
                         endforeach;
                         ?>
@@ -565,8 +541,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     var chart = new google.visualization.PieChart(document.getElementById('degrees'));
                     chart.draw(data, options);
                 }
-        </script>
-        <div class="chartContainer" id="degrees" style="margin-left: 35%"></div>
+            </script>
+            <div class="chartContainer" id="degrees" style="margin-left: 35%"></div>
         <?php endif; ?>
     </div>
 
