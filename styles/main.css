@@ -54,8 +54,8 @@ h2, h3, h4, h5 {
 
 table {
     border-collapse: collapse;
-            width: 60%;
-            margin: 0 auto;
+    width: 60%;
+    margin: 0 auto;
     border: 1px solid #959595;
     border-radius: 50px;
 }
