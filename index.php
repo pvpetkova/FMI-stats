@@ -38,6 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode($tableData);
             return;
         }
+    } else {
+        $tableData = $db->selectAll();
+        $loadAll = true;
     }
 } else {
     $nameError = "Моля въведете име.";
@@ -48,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Статистики за ФМИ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;500&family=Roboto:wght@300&display=swap"
@@ -76,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     </div>
 
     <div class="content">
-
         <div class="dropdown">
             <form method="GET"
                   action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
@@ -91,7 +93,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <option value="potok">По поток</option>
                 </select>
                 <input id="submit" name="submit" type="submit" value="Групирай!">
+                <form method="GET" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                      enctype='multipart/form-data'>
+                    <input type="submit" value="Покажи всички" style="background-color: #a6a6a6">
+                </form>
             </form>
+
         </div>
 
         <?php if ($loadAll):

@@ -1,3 +1,8 @@
+<div class="tab-container">
+    <button class="tab tab-active" id="table-tab" onclick="showTable('potoci')">Таблица</button>
+    <button class="tab" id="chart-tab" onclick="showChart('potoci')">Графика</button>
+</div>
+<div class="table-container" id="table-container">
 <h2 class="table-name">Брой на студенти по потоци</h2>
 <div class="download-form">
     <label>Изтегли като: </label>
@@ -59,4 +64,5 @@ $values = array();
         chart.draw(data, options);
     }
 </script>
-<div class="chartContainer" id="potoci" style="margin-left: 35%"></div>
+</div>
+<div class="chart-container" id="potoci" hidden></div>

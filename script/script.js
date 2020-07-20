@@ -2,6 +2,7 @@ function downloadCsv(grouping) {
 
     var req = new XMLHttpRequest();
     req.onload = function () {
+        console.log(this.responseText)
         var csvContent = "data:text/csv;charset=utf-8,";
         var json = JSON.parse(this.responseText);
         var fields = Object.keys(json[0]);
@@ -27,10 +28,34 @@ function downloadCsv(grouping) {
 
     var url = "index.php";
     if (grouping) {
-        url = url + "?grouping=" + grouping + +"&json=true";
+        url = url + "?grouping=" + grouping + "&json=true";
     } else {
         url = url + "&json=true";
     }
     req.open("get", url, true);
     req.send();
+}
+
+function showTable(chartId) {
+    var tableContainer = document.getElementById('table-container');
+    var chartContainer = document.getElementById(chartId);
+    tableContainer.removeAttribute("hidden");
+    chartContainer.setAttribute("hidden", '');
+
+    var tableTab = document.getElementById('table-tab');
+    var chartTab = document.getElementById('chart-tab');
+    tableTab.classList.add('tab-active');
+    chartTab.classList.remove('tab-active');
+}
+
+function showChart(chartId) {
+    var tableContainer = document.getElementById('table-container');
+    var chartContainer = document.getElementById(chartId);
+    chartContainer.removeAttribute("hidden");
+    tableContainer.setAttribute("hidden", '');
+
+    var tableTab = document.getElementById('table-tab');
+    var chartTab = document.getElementById('chart-tab');
+    tableTab.classList.remove('tab-active');
+    chartTab.classList.add('tab-active');
 }

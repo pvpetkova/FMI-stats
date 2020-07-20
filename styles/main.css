@@ -16,11 +16,9 @@ button {
 }
 
 .hero-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("./assets/Sofia_University_-_FMI_1.jpg");
     height: 350px;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("./assets/Sofia_University_-_FMI_1.jpg") no-repeat center;
     background-size: cover;
     position: relative;
     margin-bottom: 30px;
@@ -54,8 +52,8 @@ h2, h3, h4, h5 {
 
 table {
     border-collapse: collapse;
-    width: 60%;
-    margin: 0 auto;
+    width: 100%;
+    /*margin: 0 auto;*/
     border: 1px solid #959595;
     border-radius: 50px;
 }
@@ -152,7 +150,36 @@ input[type=submit]:hover {
     background-color: #f2f2f2;
 }
 
-.chartContainer {
+.chart-container {
     width: 100%;
+    margin-left: 35%;
     height: 250px;
+}
+
+.button {
+    border-radius: 20px;
+    border: 2px solid #528b50;
+    display: inline-block;
+    padding: 10px 25px;
+    color: #2c2c2c;
+    background-color: #fff;
+}
+
+.tab-container {
+    text-align: center;
+}
+
+.tab {
+    font: 16px 'Roboto', sans-serif;
+    padding: 10px;
+    background-color: #fff;
+    color: #5f5f5f;
+    border-bottom: 2px solid #717171;
+    margin: 10px;
+}
+
+.tab-active {
+    color: #000000;
+    border-bottom: 2px solid #2c2c2c;
+    font-weight: 700;
 }
