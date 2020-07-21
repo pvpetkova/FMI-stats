@@ -1,8 +1,28 @@
-function downloadCsv(grouping) {
+var config;
 
+function loadJSON(callback) {
+    var req = new XMLHttpRequest();
+    req.overrideMimeType("application/json");
+    req.open('GET', 'config.json', true);
+    // Replace 'my_data' with the path to your file
+    req.onreadystatechange = function () {
+        if (req.readyState === 4 && req.status === 200) {
+            // Required use of an anonymous callback
+            // as .open() will NOT return a value but simply returns undefined in asynchronous mode
+            callback(req.responseText);
+        }
+    };
+    req.send(null);
+}
+
+loadJSON(function (response) {
+    config = JSON.parse(response);
+});
+
+function downloadCsv(grouping) {
     var req = new XMLHttpRequest();
     req.onload = function () {
-        console.log(this.responseText)
+        console.log(this.responseText);
         var csvContent = "data:text/csv;charset=utf-8,";
         var json = JSON.parse(this.responseText);
         var fields = Object.keys(json[0]);
@@ -26,7 +46,9 @@ function downloadCsv(grouping) {
         link.click();
     };
 
-    var url = "index.php";
+    var url = "http://" + config.serverHost + ':' + config.serverPort +
+        config.projectFolderRelative + 'index.php';
+    console.log(url);
     if (grouping) {
         url = url + "?grouping=" + grouping + "&json=true";
     } else {

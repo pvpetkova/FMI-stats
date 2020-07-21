@@ -1,15 +1,22 @@
 <?php
 
-include('./config.php');
-
 class DBConnector
 {
     private $connection;
 
     public function __construct()
     {
+        $config = json_decode(file_get_contents(__DIR__ . "/../config.json"), true);
+        $host = $config['dbServer'];
+        $port = $config['dbPort'];
+        $db = $config['dbName'];
+        $user = $config['dbUser'];
+        $password = $config['dbPassword'];
+        $charset = $config['dbCharset'];
+
+        $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
         try {
-            $this->connection = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+            $this->connection = new PDO($dsn, $user, $password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE,
                 PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {

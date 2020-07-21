@@ -1,0 +1,11 @@
+{
+  "dbServer": "localhost",
+  "dbPort": "3306",
+  "dbUser": "root",
+  "dbPassword": "",
+  "dbCharset":"utf8mb4",
+  "dbName": "students",
+  "serverHost": "localhost",
+  "serverPort": 80,
+  "projectFolderRelative": "/62123_62129_final_project/"
+}
