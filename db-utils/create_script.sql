@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS ???;
+USE ???;
 CREATE TABLE `students-fmi` (
  `fn` int(11) NOT NULL,
  `degree` varchar(20) CHARACTER SET cp1251 COLLATE cp1251_bulgarian_ci NOT NULL,
