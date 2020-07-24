@@ -37,10 +37,10 @@ class DBConnector
 
     public function groupByGroups()
     {
-        $sql = "SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree
+        $sql = "SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
                             FROM `students-fmi`
-                            GROUP BY major, group_number
-                            ORDER BY count DESC";
+                            GROUP BY major, stream, year, group_number
+                            ORDER BY major, year, stream, group_number DESC";
         return $this->executeSelect($sql);
     }
 
@@ -89,4 +89,83 @@ class DBConnector
         }
         return $result;
     }
+
+    public function getBuildingsCapacity()
+    {
+        try {
+            $sql = "SELECT * FROM `capacity`";
+            return $this->executeSelect($sql);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return "Не можахме да извлечем информация.";
+        }
+    }
+
+    public function getAllBuildings()
+    {
+        try {
+            $sql = "SELECT * FROM `distribution`";
+            return $this->executeSelect($sql);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return "Не можахме да извлечем информация.";
+        }
+    }
+
+    public function getPeopleInFMI()
+    {
+        $sql = "SELECT count  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fmi != 0) a
+                        JOIN
+                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
+                            FROM `students-fmi`
+                            GROUP BY major, stream, year, group_number
+                            ORDER BY major, year, stream, group_number DESC) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
+        return $this->executeSelect($sql);
+    }
+    public function getPeopleInFHF()
+    {
+        $sql = "SELECT count  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fhf != 0) a
+                        JOIN
+                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
+                            FROM `students-fmi`
+                            GROUP BY major, stream, year, group_number
+                            ORDER BY major, year, stream, group_number DESC) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
+        return $this->executeSelect($sql);
+    }
+
+    public function getPeopleInFZF()
+    {
+        $sql = "SELECT count  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fzf != 0) a
+                        JOIN
+                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
+                            FROM `students-fmi`
+                            GROUP BY major, stream, year, group_number
+                            ORDER BY major, year, stream, group_number DESC) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
+        return $this->executeSelect($sql);
+    }
+
+    public function getPeopleInBlock2()
+    {
+        $sql = "SELECT count  FROM
+            (SELECT * FROM `distribution`
+                        WHERE block != 0) a
+                        JOIN
+                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
+                            FROM `students-fmi`
+                            GROUP BY major, stream, year, group_number
+                            ORDER BY major, year, stream, group_number DESC) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
+        return $this->executeSelect($sql);
+    }
+
+
 }
