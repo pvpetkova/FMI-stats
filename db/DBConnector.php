@@ -114,25 +114,28 @@ class DBConnector
 
     public function getPeopleInFMI()
     {
-        $sql = "SELECT count  FROM
+        $sql = "SELECT SUM(c) as sum, building, capacity  FROM
             (SELECT * FROM `distribution`
                         WHERE fmi != 0) a
                         JOIN
-                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
-                            FROM `students-fmi`
+                        (SELECT COUNT(group_number) AS c, group_number, major, major_full_name, degree, year, stream, building, capacity
+                            FROM `students-fmi`, `capacity` cap
+                            WHERE building = 'ФМИ'
                             GROUP BY major, stream, year, group_number
                             ORDER BY major, year, stream, group_number DESC) b
                             ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
         return $this->executeSelect($sql);
     }
+
     public function getPeopleInFHF()
     {
-        $sql = "SELECT count  FROM
+        $sql = "SELECT SUM(c) as sum, building, capacity  FROM
             (SELECT * FROM `distribution`
                         WHERE fhf != 0) a
                         JOIN
-                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
-                            FROM `students-fmi`
+                        (SELECT COUNT(group_number) AS c, group_number, major, major_full_name, degree, year, stream, building, capacity
+                            FROM `students-fmi`, `capacity` cap
+                            WHERE building = 'ФХФ'
                             GROUP BY major, stream, year, group_number
                             ORDER BY major, year, stream, group_number DESC) b
                             ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
@@ -141,12 +144,13 @@ class DBConnector
 
     public function getPeopleInFZF()
     {
-        $sql = "SELECT count  FROM
+        $sql = "SELECT SUM(c) as sum, building, capacity  FROM
             (SELECT * FROM `distribution`
                         WHERE fzf != 0) a
                         JOIN
-                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
-                            FROM `students-fmi`
+                        (SELECT COUNT(group_number) AS c, group_number, major, major_full_name, degree, year, stream, building, capacity
+                            FROM `students-fmi`, `capacity` cap
+                            WHERE building = 'ФЗФ'
                             GROUP BY major, stream, year, group_number
                             ORDER BY major, year, stream, group_number DESC) b
                             ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
@@ -155,16 +159,44 @@ class DBConnector
 
     public function getPeopleInBlock2()
     {
-        $sql = "SELECT count  FROM
+        $sql = "SELECT SUM(c) as sum, building, capacity  FROM
             (SELECT * FROM `distribution`
                         WHERE block != 0) a
                         JOIN
-                        (SELECT COUNT(group_number) AS count, group_number, major, major_full_name, degree, year, stream 
-                            FROM `students-fmi`
+                        (SELECT COUNT(group_number) AS c, group_number, major, major_full_name, degree, year, stream, building, capacity
+                            FROM `students-fmi`, `capacity` cap
+                            WHERE building = 'Блок 2'
                             GROUP BY major, stream, year, group_number
                             ORDER BY major, year, stream, group_number DESC) b
                             ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number";
         return $this->executeSelect($sql);
+    }
+
+
+    public function getMajorsInBuilding($building)
+    {
+        $sql = $this->connection->prepare("SELECT a.major, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fhf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream, building, capacity
+                            FROM `students-fmi`, `capacity` cap
+                            WHERE building = ?) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major
+            ORDER BY cnt DESC");
+
+        return $this->executePreparedStatement($sql, array($building));
+    }
+
+    private function executePreparedStatement($sql, $arr)
+    {
+        $sql->execute($arr);
+        $result = array();
+        while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        }
+        return $result;
     }
 
 

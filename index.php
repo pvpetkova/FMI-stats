@@ -1,18 +1,28 @@
 <?php
 include('./db/DBConnector.php');
 
-$loadAll = true;
-$loadMajors = $loadDegrees = $loadYears = $loadGroups = $loadPotoci = false;
+$loadBuildings = true;
+$loadMajors = $loadDegrees = $loadYears =
+$loadGroups = $loadPotoci = $loadAll = false;
 try {
     $db = new DBConnector();
 } catch (Exception $e) {
     $connectionError = "Неуспешно свързване с базата. Моля опитайте отново.";
 }
-$tableData = $db->selectAll();
+$tableData = [
+    $db->getPeopleInFMI(),
+    $db->getPeopleInFHF(),
+    $db->getPeopleInFZF(),
+    $db->getPeopleInBlock2()
+];
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["grouping"])) {
-        $loadAll = false;
+        $loadBuildings = false;
         switch ($_GET["grouping"]) {
+            case 'showAll':
+                $tableData = $db->selectAll();
+                $loadAll = true;
+                break;
             case 'major':
                 $tableData = $db->groupByMajor();
                 $loadMajors = true;
@@ -33,14 +43,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $tableData = $db->groupByPotoci();
                 $loadPotoci = true;
                 break;
+            case 'buildings':
+                $tableData = [
+                    $db->getPeopleInFMI(),
+                    $db->getPeopleInFHF(),
+                    $db->getPeopleInFZF(),
+                    $db->getPeopleInBlock2()
+                ];
+                $loadBuildings = true;
+                break;
         }
         if (isset($_GET["json"]) && $_GET["json"] == 'true') {
             echo json_encode($tableData);
             return;
         }
     } else {
-        $tableData = $db->selectAll();
-        $loadAll = true;
+        $tableData = [
+            $db->getPeopleInFMI(),
+            $db->getPeopleInFHF(),
+            $db->getPeopleInFZF(),
+            $db->getPeopleInBlock2()
+        ];
+        $loadBuildings = true;
     }
 } else {
     $nameError = "Моля въведете име.";
@@ -86,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <label for="grouping">Изберете критерий за групиране:<br></label>
                 <select id="grouping" name="grouping" autocomplete="off">
                     <option disabled hidden selected value="">Моля изберете...</option>
+                    <option value="showAll">Списък на всички студенти</option>
                     <option value="major">По специалност</option>
                     <option value="degree">По степен</option>
                     <option value="year">По курс</option>
@@ -101,13 +126,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         </div>
 
+        <?php if ($loadBuildings):
+            $tableData;
+            include_once 'table-templates/buildings.php'; endif; ?>
+
         <?php if ($loadAll):
             $table = $db->selectAll();
             include 'table-templates/allStudents.php'; endif; ?>
 
         <?php if ($loadMajors):
-            $tableData;
-            include_once 'table-templates/groupedByMajors.php'; endif; ?>
+            include_once 'table-templates/buildingsByMajor.php'; endif; ?>
 
         <?php if ($loadGroups):
             $tableData;
