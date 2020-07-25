@@ -1,7 +1,7 @@
 <div class="tab-container">
     <button class="tab tab-active" id="fmi-tab" onclick="showFMIinfo()">ФМИ</button>
-    <button class="tab" id="fzf-tab" onclick="showFHFinfo()">ФХФ</button>
-    <button class="tab" id="fhf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fzf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fhf-tab" onclick="showFHFinfo()">ФХФ</button>
     <button class="tab" id="bl2-tab" onclick="showBlok2info()">Блок 2</button>
 </div>
 <div class="table-container" id="table-container">
@@ -163,7 +163,7 @@
                 <th>Брой</th>
             </tr>
 
-            <?php foreach ($block as $key => $row): ?>
+            <?php foreach ($bl2 as $key => $row): ?>
                 <tr>
                     <td><?php echo $row['major']; ?></td>
                     <td><?php echo $row['cnt']; ?></td>

@@ -1,7 +1,7 @@
 <div class="tab-container">
     <button class="tab tab-active" id="fmi-tab" onclick="showFMIinfo()">ФМИ</button>
-    <button class="tab" id="fzf-tab" onclick="showFHFinfo()">ФХФ</button>
-    <button class="tab" id="fhf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fzf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fhf-tab" onclick="showFHFinfo()">ФХФ</button>
     <button class="tab" id="bl2-tab" onclick="showBlok2info()">Блок 2</button>
 </div>
 <div class="table-container" id="table-container">
@@ -22,26 +22,23 @@
 
     <div id="fmi-container">
         <h2>ФМИ</h2>
-        <div id="fmi" class="">
-            <table>
+        <table>
+            <tr>
+                <th>Специалност</th>
+                <th>Степен</th>
+                <th>Курс</th>
+                <th>Брой</th>
+            </tr>
+
+            <?php foreach ($fmi as $key => $row): ?>
                 <tr>
-                    <th>Специалност</th>
-                    <th>Степен</th>
-                    <th>Курс</th>
-                    <th>Брой</th>
+                    <td><?php echo $row['major']; ?></td>
+                    <td><?php echo $row['degree']; ?></td>
+                    <td><?php echo $row['years']; ?></td>
+                    <td><?php echo $row['cnt']; ?></td>
                 </tr>
-
-                <?php foreach ($fmi as $key => $row): ?>
-                    <tr>
-                        <td><?php echo $row['major']; ?></td>
-                        <td><?php echo $row['degree']; ?></td>
-                        <td><?php echo $row['years']; ?></td>
-                        <td><?php echo $row['cnt']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
-
-        </div>
+            <?php endforeach; ?>
+        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawFMIChart);
@@ -102,7 +99,7 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('number', 'Брой');;
+                data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
                     foreach ($fhf as $key => $row):

@@ -1,7 +1,7 @@
 <div class="tab-container">
     <button class="tab tab-active" id="fmi-tab" onclick="showFMIinfo()">ФМИ</button>
-    <button class="tab" id="fzf-tab" onclick="showFHFinfo()">ФХФ</button>
-    <button class="tab" id="fhf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fzf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fhf-tab" onclick="showFHFinfo()">ФХФ</button>
     <button class="tab" id="bl2-tab" onclick="showBlok2info()">Блок 2</button>
 </div>
 <div class="table-container" id="table-container">
@@ -17,10 +17,9 @@
     $fmi = $db->getGroupsInFMI();
     $fzf = $db->getGroupsInFZF();
     $fhf = $db->getGroupsInFHF();
-    $bl2 = $db->getGroupsInBlock2();
-    //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
+    $bl2 = $db->getGroupsInBl2();
     ?>
-    <div id="fmi-container" hidden>
+    <div id="fmi-container">
         <h2>ФМИ</h2>
         <table>
             <tr>

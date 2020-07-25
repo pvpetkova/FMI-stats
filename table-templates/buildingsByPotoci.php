@@ -1,7 +1,7 @@
 <div class="tab-container">
     <button class="tab tab-active" id="fmi-tab" onclick="showFMIinfo()">ФМИ</button>
-    <button class="tab" id="fzf-tab" onclick="showFHFinfo()">ФХФ</button>
-    <button class="tab" id="fhf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fzf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="fhf-tab" onclick="showFHFinfo()">ФХФ</button>
     <button class="tab" id="bl2-tab" onclick="showBlok2info()">Блок 2</button>
 </div>
 <div class="table-container" id="table-container">
@@ -18,8 +18,6 @@
     $fzf = $db->getStreamsInFZF();
     $fhf = $db->getStreamsInFHF();
     $bl2 = $db->getStreamsInBl2();
-
-    //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
     <div id="fmi-container">
         <h2>ФМи</h2>
@@ -70,7 +68,6 @@
         <div class="chart-container bar-chart" id="fmi"></div>
     </div>
 
-    <div id="fhf" class="">
     <div id="fhf-container" hidden>
         <h2>ФХФ</h2>
         <table>

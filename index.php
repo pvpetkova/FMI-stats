@@ -13,7 +13,7 @@ $tableData = [
     $db->getPeopleInFMI(),
     $db->getPeopleInFHF(),
     $db->getPeopleInFZF(),
-    $db->getPeopleInBlock2()
+    $db->getPeopleInBl2()
 ];
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["grouping"])) {
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     $db->getPeopleInFMI(),
                     $db->getPeopleInFHF(),
                     $db->getPeopleInFZF(),
-                    $db->getPeopleInBlock2()
+                    $db->getPeopleInBl2()
                 ];
                 $loadBuildings = true;
                 break;
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $db->getPeopleInFMI(),
             $db->getPeopleInFHF(),
             $db->getPeopleInFZF(),
-            $db->getPeopleInBlock2()
+            $db->getPeopleInBl2()
         ];
         $loadBuildings = true;
     }

@@ -102,7 +102,7 @@ function showFMIinfo() {
     o3tab.classList.remove('tab-active')
 }
 
-function showFZFinfo() {
+function showFHFinfo() {
     var o1 = document.getElementById('fmi-container');
     var neededContainer = document.getElementById('fhf-container');
     var o2 = document.getElementById('fzf-container');
@@ -122,7 +122,7 @@ function showFZFinfo() {
     o3tab.classList.remove('tab-active')
 }
 
-function showFHFinfo() {
+function showFZFinfo() {
     var o1 = document.getElementById('fmi-container');
     var o2 = document.getElementById('fhf-container');
     var neededContainer = document.getElementById('fzf-container');
