@@ -1,9 +1,4 @@
-<div class="tab-container">
-    <button class="tab" id="table-tab" onclick="drawFMIChart()">ФМИ</button> <!--mai gi opleskah malko-->
-    <button class="tab" id="chart-tab" onclick="drawFHFChart()">ФХФ</button>
-    <button class="tab" id="chart-tab" onclick="drawFZFChart()">ФЗФ</button>
-    <button class="tab" id="chart-tab" onclick="drawBlockChart()">Блок 2</button>
-</div>
+
 <div class="table-container" id="table-container">
     <h2 class="table-name">Разпределение на курсовете по сгради</h2>
     <div class="download-form">
@@ -17,27 +12,9 @@
     $fmi = $db->getYearsInFMI();
     $fzf = $db->getYearsInFZF();
     $fhf = $db->getYearsInFHF();
-    $bl2 = $db->getYearsInBlock2();
-    //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
+    $bl2 = $db->getYearsInBl2();
     ?>
     <div id="fmi" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Степен</th>
-                <th>Курс</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($fmi as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['degree']; ?></td>
-                    <td><?php echo $row['years']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawFMIChart);
@@ -51,13 +28,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
-                data.addColumn('number', 'Курс');
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fmiDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($fmi as $key => $row):
+                        echo "['" . $row['major'] . " " . $row['degree'] . " Курс: " . $row['years'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -68,23 +43,6 @@
     </div>
 
     <div id="fhf" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Степен</th>
-                <th>Курс</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($fhf as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['degree']; ?></td>
-                    <td><?php echo $row['years']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawFHFChart);
@@ -98,13 +56,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
-                data.addColumn('number', 'Курс');
                 data.addColumn('number', 'Брой');;
                 data.addRows([
                     <?php
-                    foreach ($fhfDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($fhf as $key => $row):
+                        echo "['" . $row['major'] . " " . $row['degree'] . " Курс: " . $row['years'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -115,23 +71,6 @@
     </div>
 
     <div id="fzf" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Степен</th>
-                <th>Курс</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($fzf as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['degree']; ?></td>
-                    <td><?php echo $row['years']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawFZFChart);
@@ -145,13 +84,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
-                data.addColumn('number', 'Курс');
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fzfDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($fzf as $key => $row):
+                        echo "['" . $row['major'] . " " . $row['degree'] . " Курс: " . $row['years'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -162,23 +99,6 @@
     </div>
 
     <div id="block" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Степен</th>
-                <th>Курс</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($bl2 as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['degree']; ?></td>
-                    <td><?php echo $row['years']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawBlockChart);
@@ -192,13 +112,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
-                data.addColumn('number', 'Курс');
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($blockDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($bl2 as $key => $row):
+                        echo "['" . $row['major'] . " " . $row['degree'] . " Курс: " . $row['years'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);

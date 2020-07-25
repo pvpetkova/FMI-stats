@@ -4,6 +4,7 @@
     <button class="tab" id="chart-tab" onclick="drawFZFChart()">ФЗФ</button>
     <button class="tab" id="chart-tab" onclick="drawBlockChart()">Блок 2</button>
 </div>
+<
 <div class="table-container" id="table-container">
     <h2 class="table-name">Разпределение на специалностите по сгради</h2>
     <div class="download-form">
@@ -17,25 +18,10 @@
     $fmi = $db->getMajorsInFMI();
     $fzf = $db->getMajorsInFZF();
     $fhf = $db->getMajorsInFHF();
-    $bl2 = $db->getMajorsInBlock2();
-    //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
+    $bl2 = $db->getMajorsInBl2();
+
     ?>
     <div id="fmi" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($fmi as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-                <?php
-            endforeach;
-            ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawFMIChart);
@@ -53,7 +39,7 @@
                 data.addRows([
                     <?php
                     foreach ($fmi as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -64,21 +50,6 @@
     </div>
 
     <div id="fhf" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($fhf as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-                <?php
-            endforeach;
-            ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawFHFChart);
@@ -96,7 +67,7 @@
                 data.addRows([
                     <?php
                     foreach ($fhf as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -107,21 +78,6 @@
     </div>
 
     <div id="fzf" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($fzf as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-                <?php
-            endforeach;
-            ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawFZFChart);
@@ -139,7 +95,7 @@
                 data.addRows([
                     <?php
                     foreach ($fzf as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -150,21 +106,6 @@
     </div>
 
     <div id="block" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Брой</th>
-            </tr>
-
-            <?php foreach ($bl2 as $key => $row): ?>
-                <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
-                </tr>
-                <?php
-            endforeach;
-            ?>
-        </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawBlockChart);
@@ -181,8 +122,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($block as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                    foreach ($bl2 as $key => $row):
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -193,8 +134,8 @@
     </div>
 
 </div>
-<div class="chart-container bar-chart" id="fmi"></div>
+
 <div class="chart-container bar-chart" id="fzf"></div>
 <div class="chart-container bar-chart" id="fhf"></div>
 <div class="chart-container bar-chart" id="block"></div>
-
+<div class="chart-container bar-chart" id="fmi"></div>
