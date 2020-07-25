@@ -18,10 +18,6 @@
     $fzf = $db->getGroupsInFZF();
     $fhf = $db->getGroupsInFHF();
     $bl2 = $db->getGroupsInBlock2();
-    $sizeFMI=count($fmi);
-    $sizeFHF=count($fhf);
-    $sizeFZF=count($fzf);
-    $sizeBL2=count($bl2);
     //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
     <div id="fmi" class="">
