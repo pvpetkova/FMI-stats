@@ -61,8 +61,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fmiDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($fmi as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -110,8 +110,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fhfDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($fhf as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -159,8 +159,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fzfDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($fzf as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -208,8 +208,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($blockDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['cnt'] . "],";
+                    foreach ($bl2 as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);

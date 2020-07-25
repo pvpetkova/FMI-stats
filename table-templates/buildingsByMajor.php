@@ -17,7 +17,7 @@
     $fmi = $db->getMajorsInFMI();
     $fzf = $db->getMajorsInFZF();
     $fhf = $db->getMajorsInFHF();
-    $bl2 = $db->getMajorsInBlock2();
+    $block = $db->getMajorsInBlock2();
     //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
     <div id="fmi-container">
@@ -163,7 +163,7 @@
                 <th>Брой</th>
             </tr>
 
-            <?php foreach ($bl2 as $key => $row): ?>
+            <?php foreach ($block as $key => $row): ?>
                 <tr>
                     <td><?php echo $row['major']; ?></td>
                     <td><?php echo $row['cnt']; ?></td>

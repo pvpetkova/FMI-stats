@@ -20,7 +20,8 @@
     $bl2 = $db->getGroupsInBlock2();
     //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
-    <div id="fmi" class="">
+    <div id="fmi-container" hidden>
+        <h2>ФМИ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -40,7 +41,7 @@
                     <td><?php echo $row['group_number']; ?></td>
                     <td><?php echo $row['cnt']; ?></td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
@@ -62,8 +63,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fmiDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
+                    foreach ($fmi as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -71,9 +72,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fmi"></div>
     </div>
 
-    <div id="fhf" class="">
+    <div id="fhf-container" hidden>
+        <h2>ФХФ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -112,11 +115,11 @@
                 data.addColumn('number', 'Курс');
                 data.addColumn('number', 'Поток');
                 data.addColumn('number', 'Група');
-                data.addColumn('number', 'Брой');;
+                data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fhfDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
+                    foreach ($fhf as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -124,9 +127,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fhf"></div>
     </div>
 
-    <div id="fzf" class="">
+    <div id="fzf-container" hidden>
+        <h2>ФЗФ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -168,8 +173,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fzfDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
+                    foreach ($fzf as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -177,9 +182,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fzf"></div>
     </div>
 
-    <div id="block" class="">
+    <div id="block-container" hidden>
+        <h2>Блок 2</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -221,8 +228,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($blockDataPoints as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['year'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
+                    foreach ($bl2 as $key => $row):
+                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['years'] . "," . $row['stream'] . "," . $row['group_number'] . "," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -230,11 +237,7 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="block"></div>
     </div>
 
 </div>
-
-<div class="chart-container bar-chart" id="fzf"></div>
-<div class="chart-container bar-chart" id="fhf"></div>
-<div class="chart-container bar-chart" id="block"></div>
-<div class="chart-container bar-chart" id="fmi"></div>
