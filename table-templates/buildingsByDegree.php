@@ -18,10 +18,6 @@
     $fzf = $db->getDegreesInFZF();
     $fhf = $db->getDegreesInFHF();
     $bl2 = $db->getDegreesInBlock2();
-    $sizeFMI=count($fmi);
-    $sizeFHF=count($fhf);
-    $sizeFZF=count($fzf);
-    $sizeBL2=count($bl2);
     //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
     <div id="fmi" class="">
@@ -42,7 +38,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFMIChart);
+            google.charts.setOnLoadCallback(drawFMIChart);
 
             function drawFMIChart() {
                 var options = {
@@ -86,7 +82,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFHFChart);
+            google.charts.setOnLoadCallback(drawFHFChart);
 
             function drawFHFChart() {
                 var options = {
@@ -130,7 +126,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFZFChart);
+            google.charts.setOnLoadCallback(drawFZFChart);
 
             function drawFZFChart() {
                 var options = {
@@ -174,7 +170,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawBlockChart);
+            google.charts.setOnLoadCallback(drawBlockChart);
 
             function drawBlockChart() {
                 var options = {

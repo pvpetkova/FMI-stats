@@ -14,14 +14,6 @@
     </div>
 
     <?php
-    $fmi_keys = array();
-    $fmi_values = array();
-    $fhf_keys = array();
-    $fhf_values = array();
-    $fzf_keys = array();
-    $fzf_values = array();
-    $block_keys = array();
-    $block_values = array();
     $fmi = $db->getMajorsInFMI();
     $fzf = $db->getMajorsInFZF();
     $fhf = $db->getMajorsInFHF();
@@ -42,10 +34,7 @@
                     <td><?php echo $row['cnt']; ?></td>
                 </tr>
                 <?php
-                array_push($fmi_keys, $row['major']);
-                array_push($fmi_values, $row['cnt']);
             endforeach;
-            $fmiDataPoints = array_combine($fmi_keys, $fmi_values);
             ?>
         </table>
         <script>
@@ -64,7 +53,7 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fmiDataPoints as $key => $row):
+                    foreach ($fmi as $key => $row):
                         echo "['" . $key . "'," . $row . "],";
                     endforeach;
                     ?>
@@ -90,10 +79,7 @@
                     <td><?php echo $row['cnt']; ?></td>
                 </tr>
                 <?php
-                array_push($fhf_keys, $row['major']);
-                array_push($fhf_values, $row['cnt']);
             endforeach;
-            $fhfDataPoints = array_combine($fmi_keys, $fmi_values);
             ?>
         </table>
         <script>
@@ -112,7 +98,7 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fhfDataPoints as $key => $row):
+                    foreach ($fhf as $key => $row):
                         echo "['" . $key . "'," . $row . "],";
                     endforeach;
                     ?>
@@ -138,10 +124,7 @@
                     <td><?php echo $row['cnt']; ?></td>
                 </tr>
                 <?php
-                array_push($fzf_keys, $row['major']);
-                array_push($fzf_values, $row['cnt']);
             endforeach;
-            $fzfDataPoints = array_combine($fzf_keys, $fzf_values);
             ?>
         </table>
         <script>
@@ -160,7 +143,7 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($fzfDataPoints as $key => $row):
+                    foreach ($fzf as $key => $row):
                         echo "['" . $key . "'," . $row . "],";
                     endforeach;
                     ?>
@@ -186,10 +169,7 @@
                     <td><?php echo $row['cnt']; ?></td>
                 </tr>
                 <?php
-                array_push($block_keys, $row['major']);
-                array_push($block_values, $row['cnt']);
             endforeach;
-            $blockDataPoints = array_combine($block_keys, $block_values);
             ?>
         </table>
         <script>
@@ -208,7 +188,7 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($blockDataPoints as $key => $row):
+                    foreach ($block as $key => $row):
                         echo "['" . $key . "'," . $row . "],";
                     endforeach;
                     ?>
