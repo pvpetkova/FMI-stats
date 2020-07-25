@@ -40,7 +40,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFMIChart);
+            google.charts.setOnLoadCallback(drawFMIChart);
 
             function drawFMIChart() {
                 var options = {
@@ -87,7 +87,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFHFChart);
+            google.charts.setOnLoadCallback(drawFHFChart);
 
             function drawFHFChart() {
                 var options = {
@@ -134,7 +134,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFZFChart);
+            google.charts.setOnLoadCallback(drawFZFChart);
 
             function drawFZFChart() {
                 var options = {
@@ -181,7 +181,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawBlockChart);
+            google.charts.setOnLoadCallback(drawBlockChart);
 
             function drawBlockChart() {
                 var options = {
