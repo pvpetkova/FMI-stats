@@ -10,6 +10,38 @@
                 onclick="downloadCsv('buildings')">.csv
         </button>
     </div>
+
+    <script>
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Сграда');
+            data.addColumn('number', 'Капацитет');
+            data.addColumn('number', 'Заетост');
+
+            data.addRows([
+                <?php
+                for ($i = 0; $i < 4; $i++):
+                    echo "['" . $tableData[$i][0]['building'] . "'," . $tableData[$i][0]['capacity'] . ", " . $tableData[$i][0]['sum'] .  "],";
+                endfor;
+                ?>
+            ]);
+
+            var options = {
+                chart: {
+                    title: '',
+                },
+                width: 900,
+                height: 350
+
+            };
+            var chart = new google.charts.Line(document.getElementById('buildings'));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+    </script>
     <table>
         <tr>
             <th>Сграда</th>
@@ -25,4 +57,4 @@
         <?php endfor; ?>
     </table>
 </div>
-<div class="chart-container" id="buildings" hidden></div>
+<div class="chart-container" id="buildings" style="height: 350px" hidden></div>
