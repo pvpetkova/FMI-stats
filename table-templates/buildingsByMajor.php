@@ -17,8 +17,8 @@
     $fmi = $db->getMajorsInFMI();
     $fzf = $db->getMajorsInFZF();
     $fhf = $db->getMajorsInFHF();
-    $block = $db->getMajorsInBlock2();
-    //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
+    $bl2 = $db->getMajorsInBl2();
+
     ?>
     <div id="fmi-container">
         <h2>ФМИ</h2>
@@ -54,7 +54,7 @@
                 data.addRows([
                     <?php
                     foreach ($fmi as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -99,7 +99,7 @@
                 data.addRows([
                     <?php
                     foreach ($fhf as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -144,7 +144,7 @@
                 data.addRows([
                     <?php
                     foreach ($fzf as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -188,8 +188,8 @@
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
-                    foreach ($block as $key => $row):
-                        echo "['" . $key . "'," . $row . "],";
+                    foreach ($bl2 as $key => $row):
+                        echo "['" . $row['major'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);

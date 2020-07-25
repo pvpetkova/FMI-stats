@@ -18,7 +18,6 @@
     $fzf = $db->getDegreesInFZF();
     $fhf = $db->getDegreesInFHF();
     $bl2 = $db->getDegreesInBlock2();
-    //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
     <div id="fmi-container">
         <h2>ФМИ</h2>
@@ -50,12 +49,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
                     foreach ($fmi as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['cnt'] . "],";
+                        echo "['" . $row['major'] . " " . $row['degree'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -96,12 +94,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
                     foreach ($fhf as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['cnt'] . "],";
+                        echo "['" . $row['major'] . " " . $row['degree'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -112,6 +109,7 @@
         <div class="chart-container bar-chart" id="fhf"></div>
     </div>
 
+    <div id="fzf" class="">
     <div id="fzf-container" hidden>
         <h2>ФЗФ</h2>
         <table>
@@ -142,12 +140,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
                     foreach ($fzf as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['cnt'] . "],";
+                        echo "['" . $row['major'] . " " . $row['degree'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
@@ -188,12 +185,11 @@
                 };
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Специалност');
-                data.addColumn('string', 'Степен');
                 data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
                     foreach ($bl2 as $key => $row):
-                        echo "['" . $row['major'] . "','" . $row['degree'] . "'," . $row['cnt'] . "],";
+                        echo "['" . $row['major'] . " " . $row['degree'] . "'," . $row['cnt'] . "],";
                     endforeach;
                     ?>
                 ]);
