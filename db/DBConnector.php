@@ -147,7 +147,7 @@ class DBConnector
         return $this->executeSelect($sql);
     }
 
-    public function getPeopleInBlock2()
+    public function getPeopleInBl2()
     {
         $sql = "SELECT SUM(c) as sum, building, capacity  FROM
             (SELECT * FROM `distribution`
@@ -208,7 +208,7 @@ class DBConnector
         return $this->executeSelect($sql);
     }
 
-    public function getMajorsInBlock2()
+    public function getMajorsInBl2()
     {
         $sql = "SELECT a.major, COUNT(*) as cnt  FROM
             (SELECT * FROM `distribution`
@@ -268,7 +268,7 @@ class DBConnector
         return $this->executeSelect($sql);
     }
 
-    public function getGroupsInBlock2()
+    public function getGroupsInBl2()
     {
         $sql = "SELECT a.major, a.degree, a.years, a.stream, a.group_number, COUNT(*) as cnt  FROM
             (SELECT * FROM `distribution`
@@ -328,7 +328,7 @@ class DBConnector
         return $this->executeSelect($sql);
     }
 
-    public function getDegreesInBlock2()
+    public function getDegreesInBl2()
     {
         $sql = "SELECT a.major, a.degree, COUNT(*) as cnt  FROM
             (SELECT * FROM `distribution`
