@@ -80,16 +80,6 @@ class DBConnector
         return $this->executeSelect($sql);
     }
 
-    private function executeSelect($sql)
-    {
-        $query = $this->connection->query($sql) or die("Query failed.");
-        $result = array();
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = $row;
-        }
-        return $result;
-    }
-
     public function getBuildingsCapacity()
     {
         try {
@@ -173,31 +163,314 @@ class DBConnector
     }
 
 
-    public function getMajorsInBuilding($building)
+    public function getMajorsInFMI()
     {
-        $sql = $this->connection->prepare("SELECT a.major, COUNT(*) as cnt  FROM
+        $sql = "SELECT a.major, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fmi != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major
+            ORDER BY cnt DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getMajorsInFHF()
+    {
+        $sql = "SELECT a.major, COUNT(*) as cnt  FROM
             (SELECT * FROM `distribution`
                         WHERE fhf != 0) a
                         JOIN
-                        (SELECT group_number, major, major_full_name, degree, year, stream, building, capacity
-                            FROM `students-fmi`, `capacity` cap
-                            WHERE building = ?) b
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
                             ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
             GROUP BY a.major
-            ORDER BY cnt DESC");
+            ORDER BY cnt DESC";
 
-        return $this->executePreparedStatement($sql, array($building));
+        return $this->executeSelect($sql);
     }
 
-    private function executePreparedStatement($sql, $arr)
+    public function getMajorsInFZF()
     {
-        $sql->execute($arr);
+        $sql = "SELECT a.major, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fzf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major
+            ORDER BY cnt DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getMajorsInBlock2()
+    {
+        $sql = "SELECT a.major, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE block != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major
+            ORDER BY cnt DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getGroupsInFMI()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, a.group_number, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fmi != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree, a.years, a.stream, a.group_number
+            ORDER BY major, years, stream, group_number DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getGroupsInFHF()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, a.group_number, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fhf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree, a.years, a.stream, a.group_number
+            ORDER BY major, years, stream, group_number DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getGroupsInFZF()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, a.group_number, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fzf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree, a.years, a.stream, a.group_number
+            ORDER BY major, years, stream, group_number DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getGroupsInBlock2()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, a.group_number, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE block != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree, a.years, a.stream, a.group_number
+            ORDER BY major, years, stream, group_number DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getDegreesInFMI()
+    {
+        $sql = "SELECT a.major, a.degree, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fmi != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree
+            ORDER BY cnt DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getDegreesInFHF()
+    {
+        $sql = "SELECT a.major, a.degree, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fhf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree
+            ORDER BY cnt DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getDegreesInFZF()
+    {
+        $sql = "SELECT a.major, a.degree, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fzf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree
+            ORDER BY cnt DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getDegreesInBlock2()
+    {
+        $sql = "SELECT a.major, a.degree, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE block != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream AND a.group_number=b.group_number
+            GROUP BY a.major, a.degree
+            ORDER BY cnt DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getStreamsInFMI()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fmi != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream 
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getStreamsInFHF()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fhf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream 
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getStreamsInFZF()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fzf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream 
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getStreamsInBl2()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, a.stream, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE block != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year, stream
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year AND a.stream=b.stream 
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getYearsInFMI()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fmi != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getYearsInFHF()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fhf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getYearsInFZF()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE fzf != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    public function getYearsInBl2()
+    {
+        $sql = "SELECT a.major, a.degree, a.years, COUNT(*) as cnt  FROM
+            (SELECT * FROM `distribution`
+                        WHERE block != 0) a
+                        JOIN
+                        (SELECT group_number, major, major_full_name, degree, year
+                            FROM `students-fmi`) b
+                            ON a.major=b.major AND a.degree=b.degree AND a.years=b.year
+            GROUP BY a.major, a.degree, a.years, a.stream
+            ORDER BY  major, years  DESC";
+
+        return $this->executeSelect($sql);
+    }
+
+    private function executeSelect($sql)
+    {
+        $query = $this->connection->query($sql) or die("Query failed.");
         $result = array();
-        while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
             $result[] = $row;
         }
         return $result;
     }
-
 
 }
