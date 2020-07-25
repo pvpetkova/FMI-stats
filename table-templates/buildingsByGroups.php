@@ -1,8 +1,8 @@
 <div class="tab-container">
-    <button class="tab" id="table-tab" onclick="drawFMIChart()">ФМИ</button> <!--mai gi opleskah malko-->
-    <button class="tab" id="chart-tab" onclick="drawFHFChart()">ФХФ</button>
-    <button class="tab" id="chart-tab" onclick="drawFZFChart()">ФЗФ</button>
-    <button class="tab" id="chart-tab" onclick="drawBlockChart()">Блок 2</button>
+    <button class="tab tab-active" id="fmi-tab" onclick="showFMIinfo()">ФМИ</button>
+    <button class="tab" id="fzf-tab" onclick="showFHFinfo()">ФХФ</button>
+    <button class="tab" id="fhf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="bl2-tab" onclick="showBlok2info()">Блок 2</button>
 </div>
 <div class="table-container" id="table-container">
     <h2 class="table-name">Разпределение на групите по сгради</h2>

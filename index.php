@@ -139,19 +139,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         <?php if ($loadGroups):
             $tableData;
-            include_once 'table-templates/groupedByGroups.php'; endif; ?>
+            include_once 'table-templates/buildingsByGroups.php'; endif; ?>
 
         <?php if ($loadPotoci):
             $tableData;
-            include_once 'table-templates/groupedByPotoci.php'; endif; ?>
+            include_once 'table-templates/buildingsByPotoci.php'; endif; ?>
 
         <?php if ($loadYears):
             $tableData;
-            include_once 'table-templates/groupedByYears.php'; endif; ?>
+            include_once 'table-templates/buildingsByYears.php'; endif; ?>
 
         <?php if ($loadDegrees):
             $tableData;
-            include_once 'table-templates/groupedByDegrees.php'; endif; ?>
+            include_once 'table-templates/buildingsByDegree.php'; endif; ?>
     </div>
 
     <div class="footer">

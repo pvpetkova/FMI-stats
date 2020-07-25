@@ -153,11 +153,15 @@ input[type=submit]:hover {
 .chart-container {
     width: 100%;
     margin-left: 35%;
-    height: 250px;
+    height: 400px;
 }
 
 .bar-chart {
-    margin-left: 15% !important;
+    margin-left: 0 !important;
+}
+
+.line-chart {
+    margin-left: 20% !important;
 }
 
 .button {

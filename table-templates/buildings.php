@@ -32,7 +32,7 @@
 
             var options = {
                 chart: {
-                    title: '',
+                    title: ''
                 },
                 width: 900,
                 height: 350
@@ -57,4 +57,4 @@
         <?php endfor; ?>
     </table>
 </div>
-<div class="chart-container" id="buildings" style="height: 350px" hidden></div>
+<div class="chart-container line-chart" id="buildings" style="height: 350px" hidden></div>

@@ -1,8 +1,8 @@
 <div class="tab-container">
-    <button class="tab" id="table-tab" onclick="drawFMIChart()">ФМИ</button>
-    <button class="tab" id="chart-tab" onclick="drawFHFChart()">ФХФ</button>
-    <button class="tab" id="chart-tab" onclick="drawFZFChart()">ФЗФ</button>
-    <button class="tab" id="chart-tab" onclick="drawBlockChart()">Блок 2</button>
+    <button class="tab tab-active" id="fmi-tab" onclick="showFMIinfo()">ФМИ</button>
+    <button class="tab" id="fzf-tab" onclick="showFHFinfo()">ФХФ</button>
+    <button class="tab" id="fhf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="bl2-tab" onclick="showBlok2info()">Блок 2</button>
 </div>
 <div class="table-container" id="table-container">
     <h2 class="table-name">Разпределение на специалностите по сгради</h2>
@@ -28,7 +28,8 @@
     $bl2 = $db->getMajorsInBlock2();
     //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
-    <div id="fmi" class="">
+    <div id="fmi-container">
+        <h2>ФМИ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -49,7 +50,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFMIChart);
+            google.charts.setOnLoadCallback(drawFMIChart);
 
             function drawFMIChart() {
                 var options = {
@@ -72,9 +73,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fmi"></div>
     </div>
 
-    <div id="fhf" class="">
+    <div id="fhf-container" hidden>
+        <h2>ФХФ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -95,7 +98,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFHFChart);
+            google.charts.setOnLoadCallback(drawFHFChart);
 
             function drawFHFChart() {
                 var options = {
@@ -118,9 +121,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fhf"></div>
     </div>
 
-    <div id="fzf" class="">
+    <div id="fzf-container" hidden>
+        <h2>ФЗФ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -141,7 +146,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawFZFChart);
+            google.charts.setOnLoadCallback(drawFZFChart);
 
             function drawFZFChart() {
                 var options = {
@@ -164,9 +169,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fzf"></div>
     </div>
 
-    <div id="block" class="">
+    <div id="block-container" hidden>
+        <h2>Блок 2</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -187,7 +194,7 @@
         </table>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.OnClick(drawBlockChart);
+            google.charts.setOnLoadCallback(drawBlockChart);
 
             function drawBlockChart() {
                 var options = {
@@ -210,11 +217,6 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="block"></div>
     </div>
-
 </div>
-
-<div class="chart-container bar-chart" id="fzf"></div>
-<div class="chart-container bar-chart" id="fhf"></div>
-<div class="chart-container bar-chart" id="block"></div>
-<div class="chart-container bar-chart" id="fmi"></div>

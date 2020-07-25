@@ -1,8 +1,8 @@
 <div class="tab-container">
-    <button class="tab" id="table-tab" onclick="drawFMIChart()">ФМИ</button> <!--mai gi opleskah malko-->
-    <button class="tab" id="chart-tab" onclick="drawFHFChart()">ФХФ</button>
-    <button class="tab" id="chart-tab" onclick="drawFZFChart()">ФЗФ</button>
-    <button class="tab" id="chart-tab" onclick="drawBlockChart()">Блок 2</button>
+    <button class="tab tab-active" id="fmi-tab" onclick="showFMIinfo()">ФМИ</button>
+    <button class="tab" id="fzf-tab" onclick="showFHFinfo()">ФХФ</button>
+    <button class="tab" id="fhf-tab" onclick="showFZFinfo()">ФЗФ</button>
+    <button class="tab" id="bl2-tab" onclick="showBlok2info()">Блок 2</button>
 </div>
 <div class="table-container" id="table-container">
     <h2 class="table-name">Разпределение на курсовете по сгради</h2>
@@ -17,31 +17,36 @@
     $fmi = $db->getYearsInFMI();
     $fzf = $db->getYearsInFZF();
     $fhf = $db->getYearsInFHF();
-    $bl2 = $db->getYearsInBlock2();
-    $sizeFMI=count($fmi);
-    $sizeFHF=count($fhf);
-    $sizeFZF=count($fzf);
-    $sizeBL2=count($bl2);
+    $bl2 = $db->getYearsInBl2();
+    $sizeFMI = count($fmi);
+    $sizeFHF = count($fhf);
+    $sizeFZF = count($fzf);
+    $sizeBL2 = count($bl2);
     //tablicite da gi ostavim 4e ina4e nqma kvo da se izteglq?
     ?>
-    <div id="fmi" class="">
-        <table>
-            <tr>
-                <th>Специалност</th>
-                <th>Степен</th>
-                <th>Курс</th>
-                <th>Брой</th>
-            </tr>
 
-            <?php foreach ($fmi as $key => $row): ?>
+    <div id="fmi-container">
+        <h2>ФМИ</h2>
+        <div id="fmi" class="">
+            <table>
                 <tr>
-                    <td><?php echo $row['major']; ?></td>
-                    <td><?php echo $row['degree']; ?></td>
-                    <td><?php echo $row['years']; ?></td>
-                    <td><?php echo $row['cnt']; ?></td>
+                    <th>Специалност</th>
+                    <th>Степен</th>
+                    <th>Курс</th>
+                    <th>Брой</th>
                 </tr>
-            <?php endforeach; ?>
-        </table>
+
+                <?php foreach ($fmi as $key => $row): ?>
+                    <tr>
+                        <td><?php echo $row['major']; ?></td>
+                        <td><?php echo $row['degree']; ?></td>
+                        <td><?php echo $row['years']; ?></td>
+                        <td><?php echo $row['cnt']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+
+        </div>
         <script>
             google.charts.load('current', {'packages': ['corechart']});
             google.charts.OnClick(drawFMIChart);
@@ -69,9 +74,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fmi"></div>
     </div>
 
-    <div id="fhf" class="">
+    <div id="fhf-container" hidden>
+        <h2>ФХФ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -104,7 +111,7 @@
                 data.addColumn('string', 'Специалност');
                 data.addColumn('string', 'Степен');
                 data.addColumn('number', 'Курс');
-                data.addColumn('number', 'Брой');;
+                data.addColumn('number', 'Брой');
                 data.addRows([
                     <?php
                     foreach ($fhfDataPoints as $key => $row):
@@ -116,9 +123,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fhf"></div>
     </div>
 
-    <div id="fzf" class="">
+    <div id="fzf-container" hidden>
+        <h2>ФЗФ</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -163,9 +172,11 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="fzf"></div>
     </div>
 
-    <div id="block" class="">
+    <div id="block-container" hidden>
+        <h2>Блок 2</h2>
         <table>
             <tr>
                 <th>Специалност</th>
@@ -210,11 +221,12 @@
                 chart.draw(data, options);
             }
         </script>
+        <div class="chart-container bar-chart" id="block"></div>
     </div>
-
 </div>
 
-<div class="chart-container bar-chart" id="fzf"></div>
-<div class="chart-container bar-chart" id="fhf"></div>
-<div class="chart-container bar-chart" id="block"></div>
-<div class="chart-container bar-chart" id="fmi"></div>
+
+
+
+
+

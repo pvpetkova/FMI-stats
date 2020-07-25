@@ -81,3 +81,83 @@ function showChart(chartId) {
     tableTab.classList.remove('tab-active');
     chartTab.classList.add('tab-active');
 }
+
+function showFMIinfo() {
+    var neededContainer = document.getElementById('fmi-container');
+    var o1 = document.getElementById('fhf-container');
+    var o2 = document.getElementById('fzf-container');
+    var o3 = document.getElementById('block-container');
+    neededContainer.removeAttribute("hidden");
+    o1.setAttribute("hidden", '');
+    o2.setAttribute("hidden", '');
+    o3.setAttribute("hidden", '');
+
+    var neededTab = document.getElementById('fmi-tab');
+    var o1tab = document.getElementById('fhf-tab');
+    var o2tab = document.getElementById('fzf-tab');
+    var o3tab = document.getElementById('bl2-tab');
+    neededTab.classList.add('tab-active');
+    o1tab.classList.remove('tab-active');
+    o2tab.classList.remove('tab-active');
+    o3tab.classList.remove('tab-active')
+}
+
+function showFZFinfo() {
+    var o1 = document.getElementById('fmi-container');
+    var neededContainer = document.getElementById('fhf-container');
+    var o2 = document.getElementById('fzf-container');
+    var o3 = document.getElementById('block-container');
+    neededContainer.removeAttribute("hidden");
+    o1.setAttribute("hidden", '');
+    o2.setAttribute("hidden", '');
+    o3.setAttribute("hidden", '');
+
+    var o1tab = document.getElementById('fmi-tab');
+    var neededTab = document.getElementById('fhf-tab');
+    var o2tab = document.getElementById('fzf-tab');
+    var o3tab = document.getElementById('bl2-tab');
+    neededTab.classList.add('tab-active');
+    o1tab.classList.remove('tab-active');
+    o2tab.classList.remove('tab-active');
+    o3tab.classList.remove('tab-active')
+}
+
+function showFHFinfo() {
+    var o1 = document.getElementById('fmi-container');
+    var o2 = document.getElementById('fhf-container');
+    var neededContainer = document.getElementById('fzf-container');
+    var o3 = document.getElementById('block-container');
+    neededContainer.removeAttribute("hidden");
+    o1.setAttribute("hidden", '');
+    o2.setAttribute("hidden", '');
+    o3.setAttribute("hidden", '');
+
+    var o1tab = document.getElementById('fmi-tab');
+    var o2tab = document.getElementById('fhf-tab');
+    var neededTab = document.getElementById('fzf-tab');
+    var o3tab = document.getElementById('bl2-tab');
+    neededTab.classList.add('tab-active');
+    o1tab.classList.remove('tab-active');
+    o2tab.classList.remove('tab-active');
+    o3tab.classList.remove('tab-active')
+}
+
+function showBlok2info() {
+    var o1 = document.getElementById('fmi-container');
+    var o2 = document.getElementById('fzf-container');
+    var o3 = document.getElementById('fhf-container');
+    var neededContainer = document.getElementById('block-container');
+    neededContainer.removeAttribute("hidden");
+    o1.setAttribute("hidden", '');
+    o2.setAttribute("hidden", '');
+    o3.setAttribute("hidden", '');
+
+    var o1tab = document.getElementById('fmi-tab');
+    var o2tab = document.getElementById('fzf-tab');
+    var o3tab = document.getElementById('fhf-tab');
+    var neededTab = document.getElementById('bl2-tab');
+    neededTab.classList.add('tab-active');
+    o1tab.classList.remove('tab-active');
+    o2tab.classList.remove('tab-active');
+    o3tab.classList.remove('tab-active')
+}
